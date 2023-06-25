@@ -1,0 +1,1 @@
+const Cohort = require('../models/cohort')
