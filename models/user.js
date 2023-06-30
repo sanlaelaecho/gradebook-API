@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
     email: {type: String, unique: true, lowercase: true, required: true},
     password: {type: String, minlength: 5, required: true},
     role: {type: String, enum: ['admin', 'teacher', 'student'], required: true},
-    loggedIn: Boolean
+    loggedIn: Boolean,
+    cohort: {type: mongoose.Schema.Types.ObjectId, ref: 'Cohort'}
 }, {
     timestamps: true
 })

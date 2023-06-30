@@ -40,9 +40,8 @@ exports.loginUser = async (req, res) => {
             user.loggedIn = true
             console.log(user.role)
             //updates the role in the reques to that of the user's
-            req.body.role = user.role
+    
             console.log(req.body.role)
-            console.log(req.user.role)
             await user.save()
             const token = await user.generateAuthToken()
             res.json({user, token})
@@ -65,27 +64,29 @@ exports.logoutUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const updates = Object.keys(req.body)
-        //use req.user from auth function not working
-        const user = await User.findOne({ _id: req.params.id })
-        console.log(user)
+        //use req.user from auth function to update the current logged in user only
+        //const user = await User.findOne({ _id: req.params.id })
         updates.forEach(update => req.user[update] = req.body[update])
         await req.user.save()
-        res.json(user)
+        res.json(req.user)
     } catch(error) {
         res.status(400).json({message: error.message})
     }
 }
 
+// exports.getTeachers = async (req, res) => {
+//     try {
+        
+//     }
+// }
+
 
 exports.deleteUser = async (req, res) => {
     try{
-        //user.role checks to see if the user is an admin, otherwise won't let user delete
         console.log(req.user.role)
-        console.log(req.body.role)
         //user.role checks to see if the user is an admin, otherwise won't let user delete
-        if (req.user.role === 'teacher') {
-            console.log(`in`)
-            await req.user.deleteOne()
+        if (req.user.role === 'admin') {
+            await User.findByIdAndDelete(req.params.id)
             res.sendStatus(204)
         } else {
             throw new Error(`You're not authorized to delete.`)

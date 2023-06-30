@@ -1,11 +1,12 @@
 require('dotenv').config()
-require('./database')
+const mongoose = require('mongoose')
+mongoose.connect(process.env.MONGO_URI)
+mongoose.connection.once('open', () => console.log('Mongo connected to seedjs'))
 
 const Subject = require('../models/subject')
 const Cohort = require('../models/cohort')
 
-(async function() {
-
+;(async function() {
     await Subject.deleteMany({})
     const subjects = await Subject.create([
         {name: 'Computer Science', sortOrder: 10},
@@ -29,8 +30,10 @@ const Cohort = require('../models/cohort')
         {name: 'MED100', subject: subjects[6]},
         {name: 'ARCH100', subject: subjects[7]},
     ])
+
     console.log(subjects)
     console.log(cohorts)
-
+    
     process.exit()
+
 })()
