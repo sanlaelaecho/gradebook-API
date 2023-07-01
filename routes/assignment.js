@@ -9,3 +9,5 @@ router.get('/submitted', userController.auth, assignmentCtrl.indexSubmitted)
 router.get('/notsubmitted', userController.auth, assignmentCtrl.indexNotSubmitted)
 router.put('/:id', userController.auth, assignmentCtrl.update)
 router.delete('/:id', userController.auth, assignmentCtrl.delete)
+
+module.exports = router
