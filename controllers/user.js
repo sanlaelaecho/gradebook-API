@@ -8,7 +8,6 @@ exports.auth = async (req, res, next) => {
         const token = req.header('Authorization').replace('Bearer ', '')
         const data = jwt.verify(token, process.env.SECRET)
         const user = await User.findOne({ _id: data._id })
-        console.log(user)
         if(!user){
             throw new Error('Invalid Credentials')
         }
@@ -83,7 +82,6 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try{
-        console.log(req.user.role)
         //user.role checks to see if the user is an admin, otherwise won't let user delete
         if (req.user.role === 'admin') {
             await User.findByIdAndDelete(req.params.id)

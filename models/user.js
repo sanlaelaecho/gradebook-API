@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     password: {type: String, minlength: 5, required: true},
     role: {type: String, enum: ['admin', 'teacher', 'student'], required: true},
     loggedIn: Boolean,
-    cohort: {type: mongoose.Schema.Types.ObjectId, ref: 'Cohort'}
+    cohort: {type: mongoose.Schema.Types.ObjectId, ref: 'Cohorts'}
 }, {
     timestamps: true
 })

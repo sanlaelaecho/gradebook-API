@@ -4,7 +4,7 @@ mongoose.connect(process.env.MONGO_URI)
 mongoose.connection.once('open', () => console.log('Mongo connected to seedjs'))
 
 const Subject = require('../models/subject')
-const Cohort = require('../models/cohort')
+const Cohort = require('../models/cohorts')
 
 ;(async function() {
     await Subject.deleteMany({})

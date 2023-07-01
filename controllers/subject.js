@@ -1,5 +1,5 @@
 const Subject = require('../models/subject')
-const Cohort = require('../models/cohort')
+const Cohorts = require('../models/cohorts')
 
 exports.showAll = async function (req, res) {
     try{
@@ -21,8 +21,12 @@ exports.showOne = async function (req, res) {
 
 exports.rename = async function (req, res) {
     try{
-        const subject = await Subject.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true})
-        res.json(subject)
+        if (req.user.role === 'admin') {
+            const subject = await Subject.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true})
+            res.json(subject)
+        } else {
+            throw new Error(`You're not authorized.`)
+        }
     } catch (error) {
         res.status(400).json({ message: error.message })
     }

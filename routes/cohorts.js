@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const cohortController = require('../controllers/cohort')
+const cohortController = require('../controllers/cohorts')
 const userController = require('../controllers/user')
 
 router.post('/', userController.auth, cohortController.create)
