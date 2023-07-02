@@ -1,9 +1,14 @@
 const Subject = require('../models/subject')
-const Cohorts = require('../models/cohorts')
+const Cohort = require('../models/cohort')
 
 exports.showAll = async function (req, res) {
     try{
         const allSubjects = await Subject.find({})
+        // allSubjects.forEach( function(_id) {
+        //     if (Subject._id === )
+        //     this.numberOfCohorts = this.cohorts.length
+        // })
+        await allSubjects.save()
         res.json({ subject: allSubjects })
     } catch(error) {
         res.status(400).json({ message: error.message })
@@ -12,7 +17,13 @@ exports.showAll = async function (req, res) {
 
 exports.showOne = async function (req, res) {
     try {
-        const oneSubject = await Subject.findOne({ _id: req.params.id })
+        const cohort = await Cohort.findOne({subject: req.params.id})
+        const oneSubject = await Subject.findByIdAndUpdate({ _id: req.params.id },
+             {
+                 $addToSet: { cohorts: cohort._id }
+             }, {new: true})
+        //     oneSubject.numberOfCohorts = oneSubject.cohorts.length
+            await oneSubject.save()
         res.json({ subject: oneSubject })
     } catch (error) {
         res.status(400).json({ message: error.message })

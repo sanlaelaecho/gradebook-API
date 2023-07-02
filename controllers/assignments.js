@@ -1,5 +1,5 @@
-const Assignments = require('../models/assignments')
-const Cohorts = require('../models/cohorts')
+const Assignments = require('../models/assignment')
+const Cohort = require('../models/cohort')
 const User = require('../models/user')
 
 exports.create = async function (req, res) {
@@ -58,6 +58,7 @@ exports.update = async function (req, res) {
 exports.grade = async function (req, res) {
     try {
         if(req.user.role === 'teacher') {
+            //req.user.assignments.grade
             const submission = await Assignments.findOne({_id: req.params.id})
             if (submission.submitted === true) {
                 const grade = await Assignments.findOneAndUpdate({_id: req.params.id, submitted: true}, req.body, {new: true})
@@ -75,7 +76,7 @@ exports.grade = async function (req, res) {
 
 exports.delete = async function (req, res) {
     try {
-        if(req.user.role === 'admin' || 'teacher') {
+        if(req.user.role === 'admin' || req.user.role === 'teacher') {
             const assignment = await Assignments.findByIdAndDelete({_id: req.params.id})
             res.sendStatus(204)
         } else {
@@ -88,10 +89,11 @@ exports.delete = async function (req, res) {
 
 exports.showDue = async function (req, res) {
     try {
-        if (req.user.role === 'teacher' || 'student') {
-            const due = await Assignments.find({})
-            todaysDate = Date.now()
-            dueDate = due.forEach(parse => dueDate = Assignments.due_date.parse())
+        if (req.user.role === 'teacher' || req.user.role === 'student') {
+            const assignments = await Assignments.find({})
+            let todaysDate = Date.now()
+            let dueAssignments = assignments.filter()
+            //dueDate = due.forEach(parse => dueDate = Assignments.due_date.parse()) return filtered list / dueDate or map
             console.log(due)
             console.log(dueDate)
             res.json(due)

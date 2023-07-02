@@ -1,5 +1,5 @@
 const {model, Schema} = require('mongoose')
-const Assignments = require('./assignments')
+const Assignments = require('./assignment')
 const Subject = require('./subject')
 
 const cohortSchema = new Schema({
@@ -11,12 +11,6 @@ const cohortSchema = new Schema({
     timestamps: true
 })
 
-cohortSchema.pre('save', async function (next) {
-    if (this.subject === Subject._id) {
-        Subject.cohorts.push(this._id)
-    }
-    next()
-})
 
-const Cohorts = model('Cohorts', cohortSchema)
-module.exports = Cohorts
+const Cohort = model('Cohort', cohortSchema)
+module.exports = Cohort
