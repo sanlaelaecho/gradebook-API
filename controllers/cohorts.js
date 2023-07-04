@@ -1,21 +1,19 @@
 const Cohort = require('../models/cohort')
 const Subject = require('../models/subject')
 
+//router.post('/', userController.auth, cohortController.create)
 exports.create = async function (req, res) {
     try {
-        if (req.user.role === 'admin' || 'teacher') {
+        if (req.user.role === 'admin' || req.user.role === 'teacher') {
             req.body.user = req.user._id
             const cohort = await Cohort.create(req.body)
             //find the subject with id same to cohort's subject id
-            const sub = await Subject.findByIdAndUpdate(cohort.subject, 
+            await Subject.findByIdAndUpdate(cohort.subject, 
                 {
                     //addToSet only adds cohort._id to cohorts array if there is no duplicate data
                     $addToSet: { cohorts: cohort._id }
                 }, {new: true}
             )
-            //add this created cohort to the subject
-            sub.numberOfCohorts += 1
-            await sub.save()
             await cohort.save()
             res.json(cohort)
         } else {
@@ -26,6 +24,7 @@ exports.create = async function (req, res) {
     }
 }
 
+//router.get('/', userController.auth, cohortController.showAll)
 exports.showAll = async function (req, res) {
     try{
         const allCohorts = await Cohort.find({})
@@ -35,6 +34,7 @@ exports.showAll = async function (req, res) {
     }
 }
 
+//router.get('/:id', userController.auth, cohortController.showOne)
 exports.showOne = async function (req, res) {
     try {
         const oneCohort = await Cohort.findOne({_id: req.params.id})
@@ -44,9 +44,10 @@ exports.showOne = async function (req, res) {
     }
 }
 
+//router.put('/:id', userController.auth, cohortController.update)
 exports.update = async function (req, res) {
     try {
-        if (req.user.role === 'admin' || 'teacher') {
+        if (req.user.role === 'admin' || req.user.role === 'teacher') {
         const cohort = await Cohort.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
         res.json(cohort)
         } else {
@@ -57,11 +58,11 @@ exports.update = async function (req, res) {
     }
 }
 
+//router.delete('/:id', userController.auth, cohortController.delete)
 exports.delete = async function (req, res) {
     try {
-        if (req.user.role === 'admin' || 'teacher') {
-        console.log(req.user.role)
-        const cohort = await Cohort.findOneAndDelete({ _id: req.params.id })
+        if (req.user.role === 'admin' || req.user.role === 'teacher') {
+            await Cohort.findOneAndDelete({ _id: req.params.id })
         res.sendStatus(204)
         } else {
             throw new Error(`You're not authorized.`)

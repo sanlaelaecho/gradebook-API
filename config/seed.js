@@ -32,9 +32,56 @@ const Cohort = require('../models/cohort')
     ])
 
 
-    console.log(subjects)
-    console.log(cohorts)
+    const csSubj = await Subject.findOneAndUpdate(
+        {name: 'Computer Science'},
+        {
+        $addToSet: {cohorts: cohorts[0]}
+    }, {new: true})
     
+    const maSubj = await Subject.findOneAndUpdate(
+        {name: 'Engineering and Math'},
+        {
+        $addToSet: {cohorts: cohorts[1]}
+    }, {new: true})
+
+    
+    await Subject.findOneAndUpdate(
+        {name: 'Business and Entrepreneurship'},
+        {
+        $addToSet: {cohorts: cohorts[2]}
+    }, {new: true})
+ 
+    await Subject.findOneAndUpdate(
+        {name: 'Education'},
+        {
+        $addToSet: {cohorts: cohorts[3]}
+    }, {new: true})
+
+    await Subject.findOneAndUpdate(
+        {name: 'Liberal Arts'},
+        {
+        $addToSet: {cohorts: cohorts[4]}
+    }, {new: true})
+
+    await Subject.findOneAndUpdate(
+        {name: 'Law'},
+        {
+        $addToSet: {cohorts: cohorts[5]}
+    }, {new: true})
+
+    await Subject.findOneAndUpdate(
+        {name: 'Medicine'},
+        {
+        $addToSet: {cohorts: cohorts[6]}
+    }, {new: true})
+
+    await Subject.findOneAndUpdate(
+        {name: 'Architecture'},
+        {
+        $addToSet: {cohorts: cohorts[7]}
+    }, {new: true})
+
+
     process.exit()
 
 })()

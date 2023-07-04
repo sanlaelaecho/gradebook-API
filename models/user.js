@@ -2,7 +2,8 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const Assignments = require('./assignment')
+const Subject = require('./subject')
+const Submission = require('./submission')
 
 const userSchema = new mongoose.Schema({
     firstName: String,
@@ -13,7 +14,7 @@ const userSchema = new mongoose.Schema({
     role: {type: String, enum: ['admin', 'teacher', 'student'], required: true},
     loggedIn: Boolean,
     subject: {type: mongoose.Schema.Types.ObjectId, ref: 'Subject'},
-    assignments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Assignments'}]
+    submissions: [{type: mongoose.Schema.Types.ObjectId, ref: 'Submission'}]
 }, {
     timestamps: true
 })
@@ -32,12 +33,6 @@ userSchema.methods.generateAuthToken = async function() {
     return token
 }
 
-//delete user.assignments from teachers and admins
-userSchema.methods.deleteAssignments = async function() {
-    let userObject = this.toObject()
-    delete userObject.assignments
-    return userObject
-}
 
 const User = mongoose.model('User', userSchema)
 module.exports = User
