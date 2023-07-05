@@ -1,13 +1,13 @@
 # GRADEBOOK API
 
 ## Prerequisites
-- Node.js
+- **Node.js** <br>
 In Terminal run:
 `node -v`
 If a version number is displayed, Node.js is already installed.
 Or install Node.js through their official [website](https://nodejs.org/en).
 
-- Nodemon
+- **Nodemon** <br>
 Install Nodemon globally:
 `npm install -g nodemon`
 
@@ -28,7 +28,8 @@ MONGO_URI=mongodb+srv://your-mongodb-uri
 SECRET=your-SHA256-secret-key
 ```
 Copy the `mongodb+srv://` link from your MongoDB account and replace it in the .env file. You can change your database name as desired. 
-Create a secret on SHA256 website and replace `your-SHA256-secret-key` with the hash. Remember your actual secret.
+Create a secret on SHA256 website and replace `your-SHA256-secret-key` with the hash. Remember your actual secret. <br>
+
 7. Run the seed.js file to prepopulate some subjects and cohorts into the database:
 `node ./config/seed.js`
 

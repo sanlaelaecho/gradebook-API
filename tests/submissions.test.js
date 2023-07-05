@@ -1,0 +1,56 @@
+const request = require('supertest')
+const mongoose = require('mongoose')
+const { MongoMemoryServer } = require('mongodb-memory-server')
+const app = require('../app')
+const server = app.listen(1010, () => console.log(`Fly me to 1010`))
+const Submission = require('../models/submission')
+const Assignment = require('../models/assignment')
+const Cohort = require('../models/cohort')
+const Subject = require('../models/subject')
+const User = require('../models/user')
+let mongoServer
+
+beforeAll(async () => {
+    mongoServer = await MongoMemoryServer.create()
+    await mongoose.connect(mongoServer.getUri())
+})
+
+afterAll(async () => {
+    await mongoose.connection.close()
+    mongoServer.stop()
+    server.close()
+})
+
+describe('Test the submission endpoints', () => {
+    // router.post('/', userController.auth, submissionCtrl.create)
+    test('It should create a new submission', async () => {
+        const csSubject = new Subject({ name: 'Computer Science'})
+        await csSubject.save()
+        const teacher = new User({ lastName: 'teacher1', email: 'teacher1@school.com', password: 'teacherteacher', role: 'teacher' })
+        await teacher.save()
+        const csCohort = new Cohort({ name: 'CS100', subject: csSubject._id, user: teacher._id })
+        await csCohort.save()
+        const assignmentToSubmit = new Assignment({ name: 'CS homework1', cohort: csCohort._id, due_date: '2023-07-11' })
+        await assignmentToSubmit.save()
+        const user = new User({ lastName: 'student1', email: 'student1@school.com', password: 'student1', role: 'student' })
+        await user.save()
+        const token = await user.generateAuthToken()
+        const response = await request(app)
+            .post('/submissions')
+            .set(`Authorization`, `Bearer ${token}`)
+            .send({ assignment: assignmentToSubmit._id, student: user._id })
+        expect(response.statusCode).toBe(200)
+        expect.objectContaining(assignmentToSubmit)
+        expect.objectContaining(user)
+        expect(response.body.pastDueDate).toEqual(false)
+        expect(response.body.submitted).toEqual(false)
+    })
+
+    // router.put('/grade/:id', userController.auth, submissionCtrl.grade)
+    // router.post('/:id', userController.auth, submissionCtrl.submit)
+    // router.get('/submitted', userController.auth, submissionCtrl.indexSubmitted)
+    // router.get('/notsubmitted', userController.auth, submissionCtrl.indexNotSubmitted)
+    // router.put('/:id', userController.auth, submissionCtrl.update)
+    // router.delete('/:id', userController.auth, submissionCtrl.delete)
+})
+
