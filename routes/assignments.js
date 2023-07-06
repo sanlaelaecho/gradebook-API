@@ -5,7 +5,7 @@ const userController = require('../controllers/user')
 
 router.post('/', userController.auth, assignmentCtrl.create)
 router.put('/:id', userController.auth, assignmentCtrl.update)
-router.get('/:id', userController.auth, assignmentCtrl.getOne)
+router.get('/:id', assignmentCtrl.getOne)
 router.delete('/:id', userController.auth, assignmentCtrl.delete)
 //router.get('/due', userController.auth, assignmentCtrl.showDue)
 

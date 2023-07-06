@@ -24,7 +24,7 @@ exports.create = async function (req, res) {
     }
 }
 
-//router.get('/', userController.auth, cohortController.showAll)
+//router.get('/', cohortController.showAll)
 exports.showAll = async function (req, res) {
     try{
         const allCohorts = await Cohort.find({})
@@ -34,7 +34,7 @@ exports.showAll = async function (req, res) {
     }
 }
 
-//router.get('/:id', userController.auth, cohortController.showOne)
+//router.get('/:id', cohortController.showOne)
 exports.showOne = async function (req, res) {
     try {
         const oneCohort = await Cohort.findOne({_id: req.params.id})

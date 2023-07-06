@@ -35,7 +35,7 @@ exports.update = async function (req, res) {
     }
 }
 
-//router.get('/:id', userController.auth, assignmentCtrl.getOne)
+//router.get('/:id', assignmentCtrl.getOne)
 exports.getOne = async function (req, res) {
     try {
         const assignment = await Assignments.findById(req.params.id)
