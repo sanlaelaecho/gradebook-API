@@ -164,6 +164,8 @@ describe('Test the submission endpoints', () => {
         expect(response.body.submitted).toEqual(false)
     })
 
+    //  router.get('/:id', userController.auth, submissionCtrl.view)
+
     // router.delete('/:id', userController.auth, submissionCtrl.delete)
     test('It should delete a submission', async() => {
         const student = new User({ lastName: 'student7', email: 'student7@school.com', password: 'student', role: 'student' })
