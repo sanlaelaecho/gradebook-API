@@ -1,6 +1,7 @@
 const Submission = require('../models/submission')
 const Assignments = require('../models/assignment')
 const User = require('../models/user')
+const { all } = require('../app')
 
 //router.post('/', userController.auth, submissionCtrl.create)
 exports.create = async function (req, res) {
@@ -96,6 +97,21 @@ exports.update = async function (req, res) {
             throw new Error (`Only students can update their submissions.`)
         }
     } catch(error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
+//router.get('/:id', userController.auth, submissionCtrl.viewAll)
+exports.viewAll = async function (req, res) {
+    try {
+        if (req.user.role === 'student') {
+            const studentsSubmissions = await Submission.find({ student: req.params.id })
+            res.json(studentsSubmissions)
+        } else {
+            const allSubmissions = await Submission.find()
+            res.json(allSubmissions)
+        }
+    } catch (error) {
         res.status(400).json({ message: error.message })
     }
 }

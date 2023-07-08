@@ -52,9 +52,9 @@ Run the load tests through artillery by typing in VS code terminal:
 `npm run load`
 
 ## Make an API request in Postman
-In Postman, to make API request, use the url and port: **http://localhost:3000/**
+In Postman, to make API request, use the url and port: **http://localhost:3000/** <br>
 There are 5 main routes:
-`/users`, `/subjects`, `/cohorts`, `/assignments` and `/submissions`
+`/users`, `/subjects`, `/cohorts`, `/assignments` and `/submissions` <br>
 For further routes and types of requests in each, view their individual routes files.
 
 ## GradeBoard

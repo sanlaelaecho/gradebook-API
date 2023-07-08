@@ -163,8 +163,7 @@ describe('Test the submission endpoints', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body.submitted).toEqual(false)
     })
-
-    //  router.get('/:id', userController.auth, submissionCtrl.view)
+    
 
     // router.delete('/:id', userController.auth, submissionCtrl.delete)
     test('It should delete a submission', async() => {

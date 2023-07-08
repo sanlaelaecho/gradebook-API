@@ -68,7 +68,6 @@ exports.updateUser = async (req, res) => {
     try {
         const updates = Object.keys(req.body)
         //use req.user from auth function to update the current logged in user only
-        //const user = await User.findOne({ _id: req.params.id })
         updates.forEach(update => req.user[update] = req.body[update])
         await req.user.save()
         res.json(req.user)

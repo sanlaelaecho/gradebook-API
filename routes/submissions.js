@@ -9,6 +9,7 @@ router.post('/:id', userController.auth, submissionCtrl.submit)
 router.get('/submitted', userController.auth, submissionCtrl.indexSubmitted)
 router.get('/notsubmitted', userController.auth, submissionCtrl.indexNotSubmitted)
 router.put('/:id', userController.auth, submissionCtrl.update)
+router.get('/:id', userController.auth, submissionCtrl.viewAll)
 router.delete('/:id', userController.auth, submissionCtrl.delete)
 
 module.exports = router
