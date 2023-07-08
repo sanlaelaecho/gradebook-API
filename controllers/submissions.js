@@ -1,7 +1,6 @@
 const Submission = require('../models/submission')
 const Assignments = require('../models/assignment')
 const User = require('../models/user')
-const { all } = require('../app')
 
 //router.post('/', userController.auth, submissionCtrl.create)
 exports.create = async function (req, res) {
